@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="icon" href="BUITEMS tab logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="buitems.css">
+    <title>Design 2 | BUITEMS</title>
+</head>
+
+<section class="design-sontainer">
+    <div class="image-input-container-design">
+        <img src="buitems logo.png" alt="" srcset="" id="logoimg-desgin-sec">
+
+        <h2 style="margin-top: -21px" id="design-heading">Front page</h2>
+
+        <div class="allinputs">
+
+            <label for="sem-input">Name:</label>
+            <input type="text" placeholder="Enter Name" id="sem-input">
+
+            <label for="gpa-input">CMS:</label>
+            <input type="text" placeholder="Enter CMS" id="gpa-input">
+
+            <label for="CGPAcrdt-hrs-input">Course:</label>
+            <input type="text" placeholder="Enter Course name" id="CGPAcrdt-hrs-input">
+
+            <label for="CGPAcrdt-hrs-input">Topic:</label>
+            <input type="text" placeholder="Enter Topic (optional)" id="CGPAcrdt-hrs-input">
+
+            <label for="CGPAcrdt-hrs-input">Department</label>
+            <input type="text" placeholder="Enter Department" id="CGPAcrdt-hrs-input">
+
+            <label for="CGPAcrdt-hrs-input">Semester</label>
+            <input type="text" placeholder="Enter semester" id="CGPAcrdt-hrs-input">
+
+            <label for="CGPAcrdt-hrs-input">Sumbmit To:</label>
+            <input type="text" placeholder="Enter Instructor name" id="CGPAcrdt-hrs-input">
+
+            <label for="CGPAcrdt-hrs-input">Date:</label>
+            <input type="text" placeholder="Enter date" id="CGPAcrdt-hrs-input">
+
+
+        </div>
+        <div>
+            <button onclick="generatePDF()" class="saveBTN">Save to PDF</button>
+            <a href="GenFrontpage.html"> <button id="back-to-desighBTN" class="saveBTN"><i
+                        class="ri-arrow-left-fill"></i>Back to designs</button>
+            </a>
+        </div>
+
+        <div id="direction-left">
+            <h6> Move a little LEFT</h6>
+            <i class="ri-arrow-left-fill"></i>
+        </div>
+
+        <div id="direction-up">
+            <h6> Move a little UP</h6>
+            <i class="ri-arrow-up-fill"></i>
+        </div>
+
+        <div id="direction-leftup">
+            <h6> Move a little LEFT-UP</h6>
+            <i class="ri-arrow-left-up-fill"></i>
+        </div>
+    </div>
+</section>
+
+
+<div id="pdf-content">
+    <img id="bg-image" src="a4 buitems fp 1.png" alt="Front Page">
+    <p id="input1-d1"></p>
+    <p id="input2-d1"></p>
+    <p id="input3-d1"></p>
+    <p id="input4-d1"></p>
+    <p id="input5-d1"></p>
+    <p id="input6-d1"></p>
+    <p id="input7-d1"></p>
+    <p id="input8-d1"></p>
+
+</div>
+
+<script>
+    function generatePDF() {
+        // Get all input values
+        const input1 = document.querySelector("#sem-input").value;
+        const input2 = document.querySelector("#gpa-input").value;
+        const input3 = document.querySelectorAll("#CGPAcrdt-hrs-input")[0].value;
+        const input4 = document.querySelectorAll("#CGPAcrdt-hrs-input")[1].value;
+        const input5 = document.querySelectorAll("#CGPAcrdt-hrs-input")[2].value;
+        const input6 = document.querySelectorAll("#CGPAcrdt-hrs-input")[3].value;
+        const input7 = document.querySelectorAll("#CGPAcrdt-hrs-input")[4].value;
+        const input8 = document.querySelectorAll("#CGPAcrdt-hrs-input")[5].value;
+
+
+        // Map them to the PDF content
+        document.querySelector("#input1-d1").textContent = input1;
+        document.querySelector("#input2-d1").textContent = input2;
+        document.querySelector("#input3-d1").textContent = input3;
+        document.querySelector("#input4-d1").textContent = input4;
+        document.querySelector("#input5-d1").textContent = input5;
+        document.querySelector("#input6-d1").textContent = input6;
+        document.querySelector("#input7-d1").textContent = input7;
+        document.querySelector("#input8-d1").textContent = input8;
+
+
+        // Ensure the image is fully loaded before generating PDF
+        const image = document.getElementById('bg-image');
+        if (!image.complete) {
+            image.onload = () => {
+                createPDF();
+            };
+        } else {
+            createPDF();
+        }
+    }
+
+    function createPDF() {
+        const element = document.getElementById('pdf-content');
+
+        const opt = {
+            margin: 0,
+            filename: 'Assignmentfrontpage.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                scrollY: 0,
+            },
+            jsPDF: {
+                unit: 'mm',
+                format: 'a4',
+                orientation: 'portrait',
+            }
+        };
+
+        html2pdf().set(opt).from(element).save();
+    }
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="buitems.css">
+    <link rel="icon" href="BUITEMS tab logo.ico" type="image/x-icon">
+    <title>Agrregate | BUITEMS</title>
+</head>
+
+<body>
+    <div class="agg-container">
+        <img src="buitems logo.png" alt="" srcset="" id="logoimg">
+
+        <h2>Aggregate calculator</h2>
+
+        <div class="aggregate-inputs">
+
+            <label for="matricInput">Matric Marks (out of 1100):</label>
+            <input type="text" placeholder="Enter Matric marks" id="matricInput">
+
+            <label for="fscInput">FSC Marks (out of 1100):</label>
+            <input type="text" placeholder="Enter FSC marks" id="fscInput">
+
+            <label for="ntsInput">NTS Percentage (out of 100):</label>
+            <input type="text" placeholder="Enter NTS Persentage" id="ntsInput">
+
+        </div>
+
+        <button class="calc-aggre-BTN">Calculate</button>
+        <p id="aggregate-ans">*ANSWER*</p>
+
+        <p id="notePara">NOTE: Add NTS marks in Persentage</p>
+
+        <a href="index.html"> <button class="Homepg">HOME</button></a>
+
+
+        <script>
+            // ---Aggragate portion---
+            let matricInput = document.querySelector("#matricInput");
+            let fscInput = document.querySelector("#fscInput");
+            let ntsInput = document.querySelector("#ntsInput");
+            let calc_aggre_BTN = document.querySelector(".calc-aggre-BTN");
+            let aggregate_ans = document.querySelector("#aggregate-ans");
+
+            let total_marks = 1100;
+            let nts_total = 100;
+
+            aggregate_ans.style.display = "none";
+
+            // opertaion on clicking
+            calc_aggre_BTN.addEventListener("click", () => {
+                let metricMarks = Number(matricInput.value);
+                let FSCmarks = Number(fscInput.value);
+                let NTSmarks = Number(ntsInput.value);
+
+                //   validation
+                if (
+                    isNaN(metricMarks) ||
+                    isNaN(FSCmarks) ||
+                    isNaN(NTSmarks) ||
+                    metricMarks > total_marks ||
+                    FSCmarks > total_marks ||
+                    NTSmarks > nts_total ||
+                    metricMarks < 0 ||
+                    FSCmarks < 0 ||
+                    NTSmarks < 0
+                ) {
+                    aggregate_ans.style.display = "block";
+
+                    aggregate_ans.innerHTML =
+                        "Please enter valid marks within the allowed range.";
+                    aggregate_ans.style.color = "red";
+
+                    //   clear input after answer
+                    matricInput.value = "";
+                    fscInput.value = "";
+                    ntsInput.value = "";
+
+                    setTimeout(() => {
+                        aggregate_ans.style.display = "none";
+                    }, 2000);
+
+                    return;
+                }
+
+                if (
+                    matricInput.value === "" ||
+                    fscInput.value === "" ||
+                    ntsInput.value === ""
+                ) {
+                    aggregate_ans.style.display = "block";
+                    aggregate_ans.innerHTML = "Please enter a numbers";
+
+                    aggregate_ans.style.color = "#252525";
+
+                    setTimeout(() => {
+                        aggregate_ans.style.display = "none";
+                    }, 2000);
+
+                    return;
+                }
+
+                // calculation
+                let metric_aggregate = (metricMarks / total_marks) * 100;
+                let fsc_aggregate = (FSCmarks / total_marks) * 100;
+                let nts_aggregate = (NTSmarks / nts_total) * 100;
+
+                let metric_weightage = metric_aggregate * 0.1;
+                let fsc_weightage = fsc_aggregate * 0.4;
+                let nts_weightage = nts_aggregate * 0.5;
+
+                let addm_aggre = metric_weightage + fsc_weightage + nts_weightage;
+
+                //   display
+                aggregate_ans.style.display = "block";
+                aggregate_ans.style.color = "green";
+
+                aggregate_ans.innerHTML = addm_aggre.toFixed(2) + "%";
+
+                //   clear input after answer
+                matricInput.value = "";
+                fscInput.value = "";
+                ntsInput.value = "";
+            });</script>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="icon" href="BUITEMS tab logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="buitems.css">
+    <title>Timetable Generate | BUITEMS</title>
+</head>
+
+<body id="timetable-body" style="background: linear-gradient(105deg, #809fbd, transparent);
+">
+    <div id="timetable-container">
+
+
+        <img src="buitems logo.png" alt="" id="logoimgtt">
+
+        <div id="titbl-inputs">
+            <label for="time-slot">Enter time:</label>
+            <input type="text" placeholder="Enter TIme Eg: (9:00 - 10:30)" id="time-slot" class="input">
+
+            <label for="day">Enter day</label>
+            <select id="day" class="input">
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+
+            </select>
+
+            <label for="subject">Enter Subject</label>
+            <input type="text" placeholder="Subject" id="subject" class="input">
+
+            <label for="location">Class location</label>
+            <input type="text" placeholder="Enter location" id="location" class="input">
+        </div>
+
+        <p class="validation"></p>
+
+        <button id="tt-add-btn">Add</button>
+
+        <table id="timetable-table">
+
+            <thead id="table-hdng">
+                <tr>
+                    <td id="time-area-slot">Time slot</td>
+                    <td>Monday</td>
+                    <td>Tuesday</td>
+                    <td>Wednesday</td>
+                    <td>Thursday</td>
+                    <td>Friday</td>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr class="tbody-timeteale">
+                    <td class="timimg-area">00</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+
+                <tr class="tbody-timeteale">
+                    <td class="timimg-area">00</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+
+                <tr class="tbody-timeteale">
+                    <td class="timimg-area">00</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+
+                <tr class="tbody-timeteale">
+                    <td class="timimg-area">00</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+
+                <tr class="tbody-timeteale">
+                    <td class="timimg-area">00</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+
+                <tr class="tbody-timeteale">
+                    <td class="timimg-area">00</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+
+            </tbody>
+
+
+            <button id="pdf-gen">Generate PDF</button>
+        </table>
+        <a href="index.html"> <button id="homepg">Home</button></a>
+
+    </div>
+
+
+    <script>
+
+        let timeInput = document.querySelector("#time-slot");
+        let dayinput = document.querySelector("#day");
+        let subjectInput = document.querySelector("#subject");
+        let locationInput = document.querySelector("#location");
+        let allrows = document.querySelectorAll(".tbody-timeteale");
+        let addbtn = document.querySelector("#tt-add-btn");
+        let validation_para = document.querySelector(".validation");
+        let pdfbtn = document.querySelector("#pdf-gen");
+        let table = document.querySelector("#timetable-table");
+
+        //saving pdf
+        pdfbtn.addEventListener("click", () => {
+            let opt = {
+                margin: 10.5,
+                filename: 'Timetable.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                scale: 3,
+
+                html2canvas: {
+                    scrollX: 0,
+                    scrollY: 0,
+                },
+
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'landscape'
+                },
+                pagebreak: { mode: ['css'] }
+            };
+
+            html2pdf().set(opt).from(table).save();
+        })
+
+        addbtn.addEventListener("click", () => {
+            let time = timeInput.value;
+            let day = dayinput.options[dayinput.selectedIndex].value;
+            let subject = subjectInput.value;
+            let location = locationInput.value;
+
+            let dayIndexMap = {
+                monday: 1,
+                tuesday: 2,
+                wednesday: 3,
+                thursday: 4,
+                friday: 5,
+            };
+
+            if (
+                timeInput.value === "" ||
+                subjectInput.value === "" ||
+                locationInput.value === ""
+            ) {
+                validation_para.innerHTML = "Fill all the above requirments";
+                setTimeout(() => {
+                    validation_para.innerHTML = "";
+                }, 1400);
+                return;
+            }
+
+            for (let row of allrows) {
+                let oneRow = row.querySelectorAll("td");
+
+                if (oneRow[0].textContent === "00") {
+                    oneRow[0].innerHTML = time.toUpperCase();
+                }
+
+                let dayRow = oneRow[dayIndexMap[day]];
+                if (dayRow.innerHTML === "--") {
+                    dayRow.innerHTML = `${location.toUpperCase()} | ${subject.toUpperCase()}`;
+                    break;
+                }
+            }
+
+            timeInput.value = "";
+            dayinput.value = "";
+            subjectInput.value = "";
+            locationInput.value = "";
+        });
+
+    </script>
+</body>
+
+</html>

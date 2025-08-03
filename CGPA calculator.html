@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="icon" href="BUITEMS tab logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="buitems.css">
+    <title>CGPA calculate | BUITEMS</title>
+</head>
+
+<body>
+    <div class="Cgpa-container">
+        <img src="buitems logo.png" alt="" srcset="" id="logoimg-Cgpa-sec">
+        <h2 style="margin-top: -21px">CGPA calculator</h2>
+
+        <div class="Cgpa-inputs">
+
+            <label for="sem-input">Semester</label>
+            <input type="text" placeholder="Enter semester" id="sem-input">
+            <p id="sem-validation"></p>
+
+
+            <label for="gpa-input">GPA</label>
+            <input type="text" placeholder="Enter GPA (0.00 - 4.00)" id="gpa-input">
+            <p id="gpa-validation"></p>
+
+
+
+            <label for="CGPAcrdt-hrs-input">Total Cradit hourse</label>
+            <input type="text" placeholder="Enter total cradit hours" id="CGPAcrdt-hrs-input">
+            <p id="crdt-validation"></p>
+        </div>
+
+        <button id="adding-semester-btn">Add course</button>
+        <button id="cgpa-pdf-btn">Save your CGPA as PDF</button>
+
+        <div id="pdfcontent">
+
+            <table>
+
+                <thead>
+                    <tr id="table-hdng">
+
+                        <th>Semeter name </th>
+                        <th>GPA </th>
+                        <th>Cradit hours </th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+                    <tr class="table-bdy" style="display: none;" id="table-bdy1">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy2">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy3">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy4">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy5">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy6">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy7">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy8">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy9">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td><button class="deletebtn">Delete</button></td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <h3 id="ans-disp">Your CGPA is: <span id="answer-para"> </span> </h3>
+        </div>
+        <a href="index.html"> <button id="homepg">Home</button></a>
+    </div>
+
+    <script>
+
+        // CPGA portion
+        let allRows = document.querySelectorAll(".table-bdy");
+        let add_sem_btn = document.querySelector("#adding-semester-btn");
+        let dlt_btns = document.querySelectorAll(".deletebtn");
+        let semInput = document.querySelector("#sem-input");
+        let gpaInput = document.querySelector("#gpa-input");
+        let CGPAcrdt_Hrs = document.querySelector("#CGPAcrdt-hrs-input");
+        let answer = document.querySelector("#answer-para");
+
+        let sem_valid = document.querySelector("#sem-validation");
+        let gpa_valid = document.querySelector("#gpa-validation");
+        let crditHrs_valid = document.querySelector("#crdt-validation");
+
+        let pdfbtn = document.querySelector("#cgpa-pdf-btn");
+        let table = document.querySelector("#pdfcontent");
+        let ans_disp = document.querySelector("#ans-disp");
+
+        pdfbtn.addEventListener("click", () => {
+            let opt = {
+
+                margin: 10.5,
+                filename: "CGPA file",
+                image: { type: 'jpeg', quality: 1 },
+                scale: 3,
+
+
+                html2canvas: {
+                    scrollX: 0,
+                    scrollY: 0,
+
+                },
+
+                jspdf: {
+
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: "landscape",
+                },
+
+                pagebreak: {
+                    mode: ['css']
+                },
+            };
+
+            html2pdf().set(opt).from(table).save();
+        })
+
+        allRows.forEach((row) => {
+            row.style.display = "none";
+        });
+
+        // calculations
+        function calculation() {
+            let totalPoint = 0;
+            let totalCradits = 0;
+
+            allRows.forEach((row) => {
+                if (row.style.display !== "none") {
+                    let tds = row.querySelectorAll("td");
+                    let gpa = parseFloat(tds[1].innerHTML);
+                    let cradits = parseFloat(tds[2].innerHTML);
+
+                    if (!isNaN(gpa) && !isNaN(cradits)) {
+                        totalPoint += gpa * cradits;
+                        totalCradits += cradits;
+                    }
+                }
+            });
+
+            if (totalCradits > 0) {
+                let totalCGPA = totalPoint / totalCradits;
+                answer.innerHTML = totalCGPA.toFixed(2);
+            } else {
+                answer.innerHTML = "0.00";
+            }
+        }
+
+        // adding semeter cbutton function
+        let visiblity = 0;
+        add_sem_btn.addEventListener("click", () => {
+            let semester = semInput.value;
+            let GPA = gpaInput.value;
+            let crditHrs = CGPAcrdt_Hrs.value;
+
+            sem_valid.innerHTML = "";
+            gpa_valid.innerHTML = "";
+            crditHrs_valid.innerHTML = "";
+
+            // validation
+            let haserror = false;
+
+            if (semInput.value === "") {
+                sem_valid.innerHTML = "Enter a semester ";
+                haserror = true;
+            }
+
+            if (
+                isNaN(gpaInput.value) ||
+                gpaInput.value === "" ||
+                gpaInput.value > 4.0 ||
+                gpaInput.value < 0.0
+            ) {
+                gpa_valid.innerHTML = "Enter valid number (0.00 - 4.00)";
+                haserror = true;
+            }
+
+            if (isNaN(CGPAcrdt_Hrs.value) || CGPAcrdt_Hrs.value === "") {
+                crditHrs_valid.innerHTML = "Enter a valid number";
+                haserror = true;
+            }
+            if (haserror === true) {
+                return;
+            }
+
+            if (visiblity < allRows.length) {
+                let row = allRows[visiblity];
+                let tds = row.querySelectorAll("td");
+
+                tds[0].innerHTML = semester;
+                tds[1].innerHTML = GPA;
+                tds[2].innerHTML = crditHrs;
+
+                row.style.display = "table-row";
+                visiblity++;
+            }
+            calculation();
+
+            semInput.value = "";
+            gpaInput.value = "";
+            CGPAcrdt_Hrs.value = "";
+        });
+
+        // deleting each table
+        dlt_btns.forEach((dlt_btn) => {
+            dlt_btn.addEventListener("click", () => {
+                let row = dlt_btn.closest("tr");
+                if (row) {
+                    row.style.display = "none";
+                    calculation();
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

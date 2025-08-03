@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="icon" href="BUITEMS tab logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="buitems.css">
+    <title>GPA Calculate | BIUTEMS</title>
+</head>
+
+<body>
+
+    <div class="gpa-container">
+        <img src="buitems logo.png" alt="" srcset="" id="logoimg-gpa-sec">
+        <h2 style="margin-top: -21px">GPA calculator</h2>
+
+        <div class="gpa-inputs">
+
+            <label for="course-input">Course</label>
+            <input type="text" placeholder="Enter course" id="course-input">
+            <p id="crs-validation"></p>
+
+
+            <label for="grade-input">Grade percentage</label>
+            <select id="grade-input">
+                <option>Select grade</option>
+                <option value="F">49% or below (F)</option>
+                <option value="D">50% - 54% (D)</option>
+                <option value="C-">55% - 57% (C-)</option>
+                <option value="C">58% - 60% (C)</option>
+                <option value="C+">61% - 64% (C+)</option>
+                <option value="B-">65% - 69% (B-)</option>
+                <option value="B">70% - 74% (B)</option>
+                <option value="B+">75% - 79% (B+)</option>
+                <option value="A-">80% - 84% (A-)</option>
+                <option value="A">85% or above (A)</option>
+            </select>
+            <p id="grade-valid"></p>
+
+
+
+            <label for="crdt-hrs-input">Cradit hourse</label>
+            <select id="crdt-hrs-input">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </div>
+
+        <button id="adding-crs-btn">Add course</button>
+        <button id="gen-pdf">Save you GPA</button>
+
+
+        <div class="pdf-content">
+            <table id="whole-timetable">
+
+                <thead>
+                    <tr id="table-hdng">
+
+                        <th>Course name </th>
+                        <th>Grade </th>
+                        <th>Cradit hours </th>
+                        <th class="no-print">Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+                    <tr class="table-bdy" style="display: none;" id="table-bdy1">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy2">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy3">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy4">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy5">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy6">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy7">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy8">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy9">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                    <tr class="table-bdy" id="table-bdy10">
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td class="no-print"><button class="deletebtn">Delete</button></td>
+                    </tr>
+                </tbody>
+
+
+
+            </table>
+            <h3 id="ans-disp">Your GPA is: <span id="answer-para"></span> </h3>
+        </div>
+
+
+
+        <a href="index.html"> <button id="homepg">Home</button></a>
+
+
+    </div>
+
+    <!-- <script src="buitems.js"></script> -->
+
+    <script>
+        let hdnrows = document.querySelectorAll(".table-bdy");
+        let addbtn = document.querySelector("#adding-crs-btn");
+        let dltbtns = document.querySelectorAll(".deletebtn");
+        let courseInput = document.querySelector("#course-input");
+        let gradeInput = document.querySelector("#grade-input");
+        let craditInput = document.querySelector("#crdt-hrs-input");
+        let gpaAns = document.querySelector("#answer-para");
+        let PDFgenerate = document.querySelector("#gen-pdf");
+        let table = document.querySelector("#whole-timetable");
+        let pdfContent = document.querySelector(".pdf-content");
+
+        // calling each row
+        hdnrows.forEach((row) => {
+            row.style.display = "none";
+        });
+
+        let crsvalidation = document.querySelector("#crs-validation");
+        let gradeVald = document.querySelector("#grade-valid");
+        let visiblity = 0;
+
+        PDFgenerate.addEventListener("click", () => {
+            let opt = {
+
+                margin: 10.5,
+                filename: "GPA",
+                image: { type: "jpeg", quality: 1 },
+                scale: 3,
+
+                html2canvas: {
+                    scrollX: 0,
+                    scrollY: 0,
+                },
+
+                jsPDF: {
+                    unit: "mm",
+                    format: "a4",
+                    orientation: "landscape",
+                },
+
+                pagebreak: { mode: ['css'] }
+            }
+
+            html2pdf().set(opt).from(pdfContent).save()
+        })
+
+
+        function calculateGPAFromTable() {
+            let totalPoints = 0;
+            let totalCredits = 0;
+
+            hdnrows.forEach((row) => {
+                if (row.style.display !== "none") {
+                    let tds = row.querySelectorAll("td");
+                    let grade = tds[1].textContent.trim().toUpperCase();
+                    let credits = parseFloat(tds[2].textContent.trim());
+
+                    let gpaMap = {
+                        A: 4.0,
+                        "A-": 3.7,
+                        "B+": 3.3,
+                        B: 3.0,
+                        "B-": 2.7,
+                        "C+": 2.3,
+                        C: 2.0,
+                        "C-": 1.7,
+                        D: 1.0,
+                        F: 0.0,
+                    };
+
+                    let gpa = gpaMap[grade] || 0;
+                    totalPoints += gpa * credits;
+                    totalCredits += credits;
+                }
+            });
+
+            if (totalCredits > 0) {
+                let finalGPA = totalPoints / totalCredits;
+                gpaAns.innerHTML = finalGPA.toFixed(2);
+            } else {
+                gpaAns.innerHTML = "0.00"
+            }
+        }
+
+        addbtn.addEventListener("click", () => {
+            let course = courseInput.value;
+            let grade = gradeInput.options[gradeInput.selectedIndex].value;
+            let cradithrs = craditInput.options[craditInput.selectedIndex].value;
+
+            crsvalidation.innerHTML = "";
+            gradeVald.innerHTML = "";
+
+            // validation
+            let error = false
+            if (courseInput.value === "") {
+                crsvalidation.innerHTML = "Enter course please";
+                error = true
+            }
+            if (gradeInput.value === "" || gradeInput.selectedIndex === 0) {
+                gradeVald.innerHTML = "Enter grade please";
+                error = true
+            }
+            if (error) {
+                return
+            }
+
+            // insert data into table
+            if (visiblity < hdnrows.length) {
+                let row = hdnrows[visiblity];
+                let tds = row.querySelectorAll("td");
+
+                let courseTD = (tds[0].textContent = course.toUpperCase());
+                let gradeTD = (tds[1].textContent = grade);
+                let craditTD = (tds[2].textContent = cradithrs);
+
+                row.style.display = "table-row";
+                visiblity++;
+            }
+            calculateGPAFromTable(grade, cradithrs);
+
+            courseInput.value = "";
+            gradeInput.selectedIndex = 0;
+            craditInput.selectedIndex = 0;
+        });
+
+        // delete btn function
+        dltbtns.forEach((dltbtn) => {
+            dltbtn.addEventListener("click", () => {
+                let row = dltbtn.closest("tr");
+                if (row) {
+                    row.style.display = "none";
+                    calculateGPAFromTable();
+                }
+            });
+        });
+
+    </script>
+
+
+
+
+</body>
+
+</html>
