@@ -77,6 +77,22 @@
             <a href="http://wa.me/03318168843" target="_blank" id="whatsapp"><i class="ri-whatsapp-fill"></i></a>
         </footer>
     </section>
+
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then((reg) => {
+                        console.log('✅ Service Worker registered at', reg.scope);
+                    }).catch((err) => {
+                        console.log('❌ Service Worker registration failed:', err);
+                    });
+            });
+        }
+
+
+    </script>
 </body>
 
 
