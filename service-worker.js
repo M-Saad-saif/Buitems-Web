@@ -3,8 +3,15 @@ const urlsToCache = [
   "./",
   "./index.html",
   "./buitems.css",
-  "./buitems.js", // if it exists
+  //"./buitems.js",
   "./BUITEMS tab logo.ico",
+  "./backgrond for laptop.png",
+  "./A4 buitems fp.png",
+  "./a4 buitems fp 1.png",
+  "./A4 butiems frontpage 2.png",
+  "./a4 butiems frontpages 3.png",
+  "./background for mobile.png",
+  "./buitems logo.png",
 
   // External calculator & page HTML files
   "./aggregate.html",
@@ -17,7 +24,6 @@ const urlsToCache = [
   // External assets (icons etc.)
   "https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css",
 ];
-
 
 // Install the service worker and cache assets
 self.addEventListener("install", (event) => {
