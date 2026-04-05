@@ -4,16 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=https://buitems-portal.vercel.app" />
-    <link rel="canonical" href="https://buitems-portal.vercel.app" />
-    <script>
-        window.location.replace("https://buitems-portal.vercel.app");
-    </script>
     <title>Redirecting...</title>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+                for (let reg of registrations) {
+                    reg.unregister();
+                }
+                window.location.replace("https://buitems-portal.vercel.app/");
+            });
+        } else {
+            window.location.replace("https://buitems-portal.vercel.app/");
+        }
+    </script>
 </head>
 
-<body>
-    <p>Redirecting to BUITEMS Portal...</p>
-</body>
+<body></body>
 
 </html>
